@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import './question.dart';
 
 void main()
 {
@@ -14,11 +16,31 @@ void main()
 //Can do: void main() => runApp(MyApp());
 //Since one expression^
 
-//Stateless Widget is what we're inheriting from
+class MyApp extends StatefulWidget{
+  @override 
+  State<StatefulWidget> createState(){
+    return _MyAppState();
+  }
+}
 //Provides us with widgets to work with
 //MyApp is a custom widget WE build that inherits some of the
 //fundamental properties that every widget should have
-class MyApp extends StatelessWidget{
+//Private _ means only main.dart can use
+class _MyAppState extends State<MyApp>{
+  //We will pass this function as a pointer to onPressed
+  //If we pass answerQuestion()...it'll be automatically called
+  //This is a named function. But, we can use an anonymous function
+  var questions = [
+    "What's your favorite food?",
+    "What's your favorite animal?",
+    "What's your favorite city?"
+  ];
+  var _questionIndex = 0;
+  void _answerQuestion(){
+    setState(() {
+      _questionIndex++;
+    });
+  } //answerQuestion
   //This is not necessary but it makes it clear that we are NOT using
   //whatever default build function that StatelessWidget had. We are
   //customizing it for ourself
@@ -41,22 +63,22 @@ class MyApp extends StatelessWidget{
         ),
         body: Column(children:
         [
-          Text('Questions'),
+          Question(questions[_questionIndex]),
           RaisedButton(
             child: Text('Answer 1'),
-            onPressed: null
+            onPressed: _answerQuestion
           ),
           RaisedButton( 
             child: Text('Answer 2'),
-            onPressed: null 
+            onPressed: _answerQuestion
           ),
           RaisedButton( 
             child: Text('Answer 3'),
-            onPressed: null
+            onPressed: _answerQuestion
           )
         ] // List of Widgets for our Column
         )
         )
     ); //Material App
   } //build
-} //MyApp
+} //MyAppState

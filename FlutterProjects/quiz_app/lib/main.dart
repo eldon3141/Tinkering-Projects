@@ -1,7 +1,7 @@
+import 'package:first_app/quiz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import './question.dart';
-
+import 'quiz.dart';
+import 'result.dart';
 void main()
 {
   //Place widget on screen
@@ -26,20 +26,34 @@ class MyApp extends StatefulWidget{
 //MyApp is a custom widget WE build that inherits some of the
 //fundamental properties that every widget should have
 //Private _ means only main.dart can use
+//Lifting State Up
 class _MyAppState extends State<MyApp>{
+  //Create a question -> answer mapping
+  //This will be list of maps
+  final _questions = const [
+    {
+      'questionText': 'Choose a color',
+      'answers': ['Red','Green','Blue','Rainbow']
+    },
+    {
+      'questionText': 'Choose an animal',
+      'answers': ['Dog','Cat','Hamster','Dragon']
+    },
+    {
+      'questionText': 'Choose a food',
+      'answers': ['Burger','Pizza','Pasta','Food']
+    }
+  ];
+  var _questionIndex = 0;
   //We will pass this function as a pointer to onPressed
   //If we pass answerQuestion()...it'll be automatically called
   //This is a named function. But, we can use an anonymous function
-  var questions = [
-    "What's your favorite food?",
-    "What's your favorite animal?",
-    "What's your favorite city?"
-  ];
-  var _questionIndex = 0;
   void _answerQuestion(){
+    //This will make sure that build is called again to update our widget
     setState(() {
       _questionIndex++;
     });
+
   } //answerQuestion
   //This is not necessary but it makes it clear that we are NOT using
   //whatever default build function that StatelessWidget had. We are
@@ -61,23 +75,14 @@ class _MyAppState extends State<MyApp>{
         appBar: AppBar(
           title: Text('My First App') 
         ),
-        body: Column(children:
-        [
-          Question(questions[_questionIndex]),
-          RaisedButton(
-            child: Text('Answer 1'),
-            onPressed: _answerQuestion
-          ),
-          RaisedButton( 
-            child: Text('Answer 2'),
-            onPressed: _answerQuestion
-          ),
-          RaisedButton( 
-            child: Text('Answer 3'),
-            onPressed: _answerQuestion
-          )
-        ] // List of Widgets for our Column
+        //Pass function to Answer --> callback function
+        body: _questionIndex < _questions.length ? 
+        Quiz(
+          answerQuestion: _answerQuestion,
+          questions: _questions,
+          questionIndex: _questionIndex
         )
+        : Result()
         )
     ); //Material App
   } //build

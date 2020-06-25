@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Question extends StatelessWidget {
+  //Once assigned, it can't be changed...at least for this instance
   final String questionText;
 
   //Constructor

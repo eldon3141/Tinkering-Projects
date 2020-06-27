@@ -55,6 +55,13 @@ class _MyAppState extends State<MyApp>{
     });
 
   } //answerQuestion
+
+  void _resetQuiz(){
+    setState( () {
+      _questionIndex = 0;
+    }
+    );
+  }
   //This is not necessary but it makes it clear that we are NOT using
   //whatever default build function that StatelessWidget had. We are
   //customizing it for ourself
@@ -82,7 +89,7 @@ class _MyAppState extends State<MyApp>{
           questions: _questions,
           questionIndex: _questionIndex
         )
-        : Result()
+        : Result(_resetQuiz)
         )
     ); //Material App
   } //build
